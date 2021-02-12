@@ -34,14 +34,23 @@ router.post('/', (req, res) => {
 })
 
 router.put('/:id', mw.actionId, (req, res) => {
-const id = req.params.id;
-Actions.update(id, req.action)
+Actions.update(req.params.id, req.body)
 .then(action => {
-  res.status(200).json(action)
+  res.status(201).json(action)
 })
 .catch(error => {
   next(error)
 })
+})
+
+router.delete('/:id', mw.actionId, (req, res) => {
+  Actions.remove(req.params.id)
+  .then(action => {
+    res.status(200).json()
+  })
+  .catch(error => {
+    next(error)
+  })
 })
 
 router.use((err, req, res, next) => {
